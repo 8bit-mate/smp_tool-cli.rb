@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+
+require_relative "./../lib/smp_tool/cli"
+
+begin
+  Dry::CLI.new(SMPTool::CLI::Commands).call
+  exit 0
+rescue StandardError => e
+  puts e
+  exit 1
+end
