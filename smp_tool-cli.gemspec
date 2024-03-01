@@ -32,5 +32,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency "dry-cli", "~> 1.0", ">= 1.0.0"
+  spec.add_dependency "dry-files", "~> 1.1", ">= 1.1.0"
+  spec.add_dependency "smp_tool"
   spec.add_dependency "zeitwerk", "~> 2.6", ">= 2.6.12"
 end

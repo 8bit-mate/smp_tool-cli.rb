@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 require "dry/cli"
+require "dry/files"
+require "smp_tool"
 require "zeitwerk"
 
 require_relative "cli/autoloader"
