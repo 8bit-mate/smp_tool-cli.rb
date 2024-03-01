@@ -4,15 +4,15 @@ module SMPTool
   module CLI
     module Commands
       #
-      # Command to consolidate all free space at the end of a volume.
+      # Command to delete all free space.
       #
-      class Squeeze < VolumeOperation
-        desc "Consolidate all free space."
+      class Trim < VolumeOperation
+        desc "Delete all free space."
 
         private
 
         def _execute(volume:, **)
-          volume.squeeze
+          volume.trim
         end
       end
     end

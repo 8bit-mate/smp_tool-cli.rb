@@ -17,23 +17,30 @@ module SMPTool
                desc: "output filename",
                aliases: ["-o", "--output"]
 
-        def call(input:, **options)
-          volume = _input(input:, **options)
-          upd_volume = _command_exe(volume: volume, **options)
+        option :rewrite,
+               type: :boolean,
+               required: false,
+               desc: "apply result to the original *.bin file",
+               aliases: ["-r", "--rewrite"]
+
+        def call(input:, rewrite: false, **options)
+          volume = _input(input: input, **options)
+          upd_volume = _execute(volume: volume, **options)
           _output(output: options[:output], volume: upd_volume, **options) if options.key?(:output)
+          _output(output: input, volume: upd_volume, **options) if rewrite
         end
 
         private
 
-        def _command_exe(**); end
+        def _execute(**); end
 
-        def _input(input:, **options)
+        def _input(input:, **_options)
           SMPTool::VirtualVolume::Volume.read_io(
             _read_file(input)
           )
         end
-        
-        def _output(output:, volume:, **options)
+
+        def _output(output:, volume:, **_options)
           _write_file(
             output,
             volume.to_binary_s
