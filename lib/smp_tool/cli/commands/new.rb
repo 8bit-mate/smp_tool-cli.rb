@@ -54,19 +54,39 @@ module SMPTool
                desc: "bootloader type (default or auto)",
                aliases: ["-b", "--bootloader"]
 
-        def call(basic:, **options); end
+        def call(output:, basic:, **options)
+          volume = SMPTool::VirtualVolume::Volume.new(
+            bootloader: SMPTool::Basic10::DEFAULT_BOOTLOADER,
+            home_block: SMPTool::Basic10::HOME_BLOCK,
+            volume_params: _volume_params(options)
+          )
 
-        # def _volume_params(options)
-        #   {
-        #     bootloader: SMPTool::Basic10::DEFAULT_BOOTLOADER,
-        #     home_block: SMPTool::Basic10::HOME_BLOCK,
-        #     n_clusters_allocated: 20,
-        #     n_extra_bytes_per_entry: 0,
-        #     n_dir_segs: 1,
-        #     n_clusters_per_dir_seg: 2,
-        #     extra_word: 0
-        #   }
-        # end
+          _output(output: output, volume: volume, **options)
+        end
+
+        private
+
+        def _volume_params(options)
+          {
+            n_clusters_allocated: options[:n_clusters_allocated].to_i,
+            n_extra_bytes_per_entry: 0,
+            n_dir_segs: options[:n_dir_segs].to_i,
+            n_clusters_per_dir_seg: options[:n_clusters_per_dir_seg].to_i,
+            extra_word: 0
+          }
+        end
+
+        def _output(output:, volume:, **_options)
+          _write_file(
+            output,
+            volume.to_binary_s
+          )
+        end
+
+        def _write_file(path, data)
+          files = Dry::Files.new
+          files.write(path, data)
+        end
 
         # def _choose_bootloader_name()
 
