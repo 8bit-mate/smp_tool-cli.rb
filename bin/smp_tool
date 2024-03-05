@@ -3,6 +3,8 @@
 
 require_relative "./../lib/smp_tool/cli"
 
+# ARGV = "new -o file.bas --basic=1 --dir_segs=2".split(" ")
+
 begin
   Dry::CLI.new(SMPTool::CLI::Commands).call
   exit 0

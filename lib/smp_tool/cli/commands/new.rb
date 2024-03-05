@@ -20,15 +20,22 @@ module SMPTool
         DEF_N_CLS_PER_DIR_SEG = 2
         DEF_BOOTLOADER = DEF_BL_LBL
 
+        BAS_1_OPT = %w[1 1.0 one].freeze
+        BAS_2_OPT = %w[2 2.0 two].freeze
+
+        AUTO_BL_OPT = ["a", AUTO_BL_LBL].freeze
+        DEF_BL_OPT = ["d", "def", DEF_BL_LBL].freeze
+
         option :output,
-               required: true,
+               default: "smp0.bin",
+               required: false,
                desc: "output filename",
                aliases: ["-o", "--output"]
 
         option :basic,
                required: true,
                desc: "target Basic version",
-               aliases: ["-b", "--basic"]
+               aliases: ["-b", "--bas", "--basic"]
 
         option :n_clusters_allocated,
                default: DEF_N_CLUSTERS,
@@ -48,17 +55,19 @@ module SMPTool
                desc: "number of clusters per directory segment (1 or 2)",
                aliases: ["-s", "--dir_seg_size"]
 
-        option :bootloader_type,
+        option :bootloader,
                default: DEF_BOOTLOADER,
                required: false,
                desc: "bootloader type (default or auto)",
-               aliases: ["-b", "--bootloader"]
+               aliases: ["-l", "--bl", "--bootloader"]
 
         def call(output:, basic:, **options)
+          namespace = _basic_namespace(basic)
+
           volume = SMPTool::VirtualVolume::Volume.new(
-            bootloader: SMPTool::Basic10::DEFAULT_BOOTLOADER,
-            home_block: SMPTool::Basic10::HOME_BLOCK,
-            volume_params: _volume_params(options)
+            bootloader: _bl_constant(namespace, options[:bootloader]),
+            home_block: namespace::HOME_BLOCK,
+            volume_params: _volume_params(namespace, options)
           )
 
           _output(output: output, volume: volume, **options)
@@ -66,17 +75,41 @@ module SMPTool
 
         private
 
-        def _volume_params(options)
+        def _bl_constant(namespace, bootloader)
+          if AUTO_BL_LBL.include?(bootloader.downcase)
+            namespace::AUTO_BOOTLOADER
+          elsif DEF_BL_LBL.include?(bootloader.downcase)
+            namespace::DEFAULT_BOOTLOADER
+          else
+            raise ArgumentError, "Unknown bootloader type, supported values are: "\
+                                 "#{AUTO_BL_LBL}, #{DEF_BOOTLOADER}"
+          end
+        end
+
+        def _basic_namespace(basic)
+          if BAS_1_OPT.include?(basic.downcase)
+            SMPTool::Basic10
+          elsif BAS_2_OPT.include?(basic.downcase)
+            SMPTool::Basic20
+          else
+            raise ArgumentError, "Unknown BASIC version, supported values are: "\
+                                 "#{BAS_1_OPT}, #{BAS_2_OPT}"
+          end
+        end
+
+        def _volume_params(namespace, options)
           {
             n_clusters_allocated: options[:n_clusters_allocated].to_i,
-            n_extra_bytes_per_entry: 0,
+            n_extra_bytes_per_entry: namespace::N_EXTRA_BYTES_PER_ENTRY,
             n_dir_segs: options[:n_dir_segs].to_i,
             n_clusters_per_dir_seg: options[:n_clusters_per_dir_seg].to_i,
-            extra_word: 0
+            extra_word: namespace::ENTRY_EXTRA_WORD
           }
         end
 
         def _output(output:, volume:, **_options)
+          volume.to_binary_s
+
           _write_file(
             output,
             volume.to_binary_s
