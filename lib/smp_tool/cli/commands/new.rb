@@ -7,7 +7,7 @@ module SMPTool
       # Command to create a new volume.
       #
       class New < Dry::CLI::Command
-        desc "Create a new volume."
+        desc "Create a new volume"
 
         BAS_1_LBL = "1"
         BAS_2_LBL = "2"
@@ -29,37 +29,37 @@ module SMPTool
         option :output,
                default: "smp0.bin",
                required: false,
-               desc: "output filename",
-               aliases: ["-o", "--output"]
+               desc: "Output filename",
+               aliases: ["-o"]
 
         option :basic,
                required: true,
-               desc: "target Basic version",
-               aliases: ["-b", "--bas", "--basic"]
+               desc: "Target Basic version",
+               aliases: ["-b"]
 
-        option :n_clusters_allocated,
+        option :clusters,
                default: DEF_N_CLUSTERS,
                required: false,
-               desc: "number of clusters allocated to the volume",
-               aliases: ["-c", "--clusters"]
+               desc: "Number of clusters allocated to the volume",
+               aliases: ["-c"]
 
-        option :n_dir_segs,
+        option :dir_segs,
                default: DEF_N_DIR_SEGS,
                required: false,
-               desc: "number of directory segments (1 or 2)",
-               aliases: ["-d", "--dir_segs"]
+               desc: "Number of directory segments (1 or 2)",
+               aliases: ["-d"]
 
-        option :n_clusters_per_dir_seg,
+        option :dir_seg_size,
                default: DEF_N_CLS_PER_DIR_SEG,
                required: false,
-               desc: "number of clusters per directory segment (1 or 2)",
-               aliases: ["-s", "--dir_seg_size"]
+               desc: "Number of clusters per directory segment (1 or 2)",
+               aliases: ["-s"]
 
         option :bootloader,
                default: DEF_BOOTLOADER,
                required: false,
-               desc: "bootloader type (default or auto)",
-               aliases: ["-l", "--bl", "--bootloader"]
+               desc: "Bootloader type (default or auto)",
+               aliases: ["-l"]
 
         def call(output:, basic:, **options)
           namespace = _basic_namespace(basic)
@@ -99,10 +99,10 @@ module SMPTool
 
         def _volume_params(namespace, options)
           {
-            n_clusters_allocated: options[:n_clusters_allocated].to_i,
+            n_clusters_allocated: options[:clusters].to_i,
             n_extra_bytes_per_entry: namespace::N_EXTRA_BYTES_PER_ENTRY,
-            n_dir_segs: options[:n_dir_segs].to_i,
-            n_clusters_per_dir_seg: options[:n_clusters_per_dir_seg].to_i,
+            n_dir_segs: options[:dir_segs].to_i,
+            n_clusters_per_dir_seg: options[:dir_seg_size].to_i,
             extra_word: namespace::ENTRY_EXTRA_WORD
           }
         end
@@ -120,17 +120,6 @@ module SMPTool
           files = Dry::Files.new
           files.write(path, data)
         end
-
-        # def _choose_bootloader_name()
-
-        # def _choose_basic_namespace(basic_ver)
-        #   case basic_ver
-        #   when BAS_2_LBL
-        #     SMPTool::Basic20
-        #   else
-        #     SMPTool::Basic10
-        #   end
-        # end
       end
     end
   end

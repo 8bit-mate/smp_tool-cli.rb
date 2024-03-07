@@ -7,12 +7,12 @@ module SMPTool
       # Delete a file from the volume.
       #
       class Delete < VolumeOperation
-        desc "Delete a file from the volume."
+        desc "Delete a file from the volume"
 
         option :filename,
                required: true,
-               desc: "file to delete",
-               aliases: ["-f", "--fn", "--filename"]
+               desc: "File to delete",
+               aliases: ["-f"]
 
         private
 

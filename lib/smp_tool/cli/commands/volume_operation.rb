@@ -9,42 +9,44 @@ module SMPTool
       class VolumeOperation < Dry::CLI::Command
         option :input,
                required: true,
-               desc: "input filename",
-               aliases: ["-i", "--input"]
+               desc: "Input filename",
+               aliases: ["-i"]
 
         option :output,
                required: false,
-               desc: "output filename",
-               aliases: ["-o", "--output"]
+               desc: "Output filename",
+               aliases: ["-o"]
 
-        option :rewrite,
+        option :apply,
                type: :boolean,
                required: false,
-               desc: "apply result to the original *.bin file",
-               aliases: ["-r", "--rewrite"]
+               desc: "Apply result to the input *.bin file",
+               aliases: ["-a"]
 
-        def call(input:, rewrite: false, **options)
-          volume = _input(input: input, **options)
+        def call(input:, apply: false, **options)
+          volume = _input(path: input, **options)
           upd_volume = _execute(volume: volume, **options)
-          _output(output: options[:output], volume: upd_volume, **options) if options.key?(:output)
-          _output(output: input, volume: upd_volume, **options) if rewrite
+          _output(path: options[:output], volume: upd_volume, **options) if options.key?(:output)
+          _output(path: input, volume: upd_volume, **options) if apply
         end
 
         private
 
         def _execute(**); end
 
-        def _input(input:, **_options)
+        def _input(path:, **_options)
           SMPTool::VirtualVolume::Volume.read_io(
-            _read_file(input)
+            _read_file(path)
           )
         end
 
-        def _output(output:, volume:, **_options)
+        def _output(path:, volume:, **_options)
           _write_file(
-            output,
+            path,
             volume.to_binary_s
           )
+
+          puts "Changes saved to file: #{path}"
         end
 
         def _read_file(path)

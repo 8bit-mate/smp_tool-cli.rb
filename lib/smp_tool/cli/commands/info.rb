@@ -9,12 +9,12 @@ module SMPTool
       class Info < Dry::CLI::Command
         PAR_PRINT_LENGTH = 24
 
-        desc "Print info about the volume."
+        desc "Print info about the volume"
 
         option :input,
                required: true,
-               desc: "input filename",
-               aliases: ["-i", "--input"]
+               desc: "Input filename",
+               aliases: ["-i"]
 
         def call(input:, **options)
           volume = _input(input: input, **options)

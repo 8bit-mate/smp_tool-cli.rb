@@ -8,14 +8,15 @@ module SMPTool
     module Commands
       extend Dry::CLI::Registry
 
-      register "new", New, aliases: ["-n", "--new"]
+      register "new", New, aliases: ["n"]
 
-      register "delete", Delete, aliases: ["-d", "--del", "--delete"]
-      register "info", Info, aliases: ["-i", "--info"]
-      register "push_file", PushFile, aliases: ["-p", "--pf", "--push_file"]
-      register "rename", Rename, aliases: ["-r", "--rn", "--rename"]
-      register "resize", Resize, aliases: ["-z", "--resize"]
-      register "squeeze", Squeeze, aliases: ["-s", "--squeeze"]
+      register "delete", Delete, aliases: %w[d del]
+      register "extract", Extract, aliases: ["x"]
+      register "info", Info, aliases: ["i"]
+      register "push", Push, aliases: ["p"]
+      register "rename", Rename, aliases: ["r"]
+      register "resize", Resize, aliases: ["z"]
+      register "squeeze", Squeeze, aliases: ["s"]
 
       register "version", Version, aliases: ["-v", "--version"]
     end

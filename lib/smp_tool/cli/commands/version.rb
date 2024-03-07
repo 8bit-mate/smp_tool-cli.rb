@@ -7,7 +7,7 @@ module SMPTool
       # Print version.
       #
       class Version < Dry::CLI::Command
-        desc "Print version."
+        desc "Print version"
 
         def call(*)
           puts "CLI version: #{SMPTool::CLI::VERSION}"

@@ -7,22 +7,22 @@ module SMPTool
       # Command to rename a file on the volume.
       #
       class Rename < VolumeOperation
-        desc "Rename a file on the volume."
+        desc "Rename a file on the volume"
 
-        option :old_filename,
+        option :old,
                required: true,
-               desc: "old filename",
-               aliases: ["--old_fn", "--old_filename"]
+               desc: "File to rename",
+               aliases: ["-o"]
 
-        option :new_filename,
+        option :new,
                required: true,
-               desc: "new filename",
-               aliases: ["--new_fn", "--new_filename"]
+               desc: "New filename for the file",
+               aliases: ["-n"]
 
         private
 
-        def _execute(volume:, old_filename:, new_filename:, **)
-          volume.f_rename(old_filename, new_filename)
+        def _execute(volume:, old:, new:, **)
+          volume.f_rename(old, new)
         end
       end
     end

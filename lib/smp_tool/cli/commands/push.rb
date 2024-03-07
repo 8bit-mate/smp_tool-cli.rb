@@ -6,26 +6,26 @@ module SMPTool
       #
       # Command to push a file to the volume.
       #
-      class PushFile < VolumeOperation
-        desc "Push a list of files to the volume."
+      class Push < VolumeOperation
+        desc "Push a list of files to the volume"
 
-        option :file_list,
+        option :f_list,
                type: :array,
                required: true,
-               desc: "file(s) to push",
-               aliases: ["-f", "--fl", "--file_list"]
+               desc: "File(s) to push",
+               aliases: ["-f"]
 
         private
 
-        def _execute(volume:, file_list:, **)
-          files = _read_files(file_list)
+        def _execute(volume:, f_list:, **)
+          files = _read_files(f_list)
           volume.f_push(*files)
         end
 
-        def _read_files(file_list)
+        def _read_files(f_list)
           files = Dry::Files.new
 
-          file_list.map do |path|
+          f_list.map do |path|
             {
               filename: File.basename(path),
               data: files.read(path).split(/\n/)

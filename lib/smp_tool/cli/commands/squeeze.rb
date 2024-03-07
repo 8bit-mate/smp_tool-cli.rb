@@ -7,7 +7,7 @@ module SMPTool
       # Command to consolidate all free space at the end of a volume.
       #
       class Squeeze < VolumeOperation
-        desc "Consolidate all free space."
+        desc "Consolidate all free space at the end of the volume"
 
         private
 

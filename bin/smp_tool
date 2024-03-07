@@ -3,12 +3,12 @@
 
 require_relative "./../lib/smp_tool/cli"
 
-# ARGV = "new -o file.bas --basic=1 --dir_segs=2".split(" ")
+# ARGV = "z -i bin/smp0.bin -c 5 -a -o new.bin".split(" ")
 
 begin
   Dry::CLI.new(SMPTool::CLI::Commands).call
   exit 0
 rescue StandardError => e
-  puts e
+  warn e
   exit 1
 end
