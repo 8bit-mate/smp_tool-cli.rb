@@ -34,7 +34,7 @@ A Ruby command-line application to work with the Elektronika MK90 volume images.
 
 ## Installation
 
-    $ gem install smp_tool
+    $ gem install smp_tool/cli
 
 ## Usage
 
@@ -64,7 +64,7 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/8bit-m
 
 - **[Piotr Piatek](http://www.pisi.com.pl/piotr433/index.htm)**: the indisputable master of the MK90 who developed lots of great software tools and hardware devices for the machine;
 
-- **[azya52](https://github.com/azya52/)**: developer of the PIMP cartridge. This device made possible to load large volumes on a real MK90;
+- **[azya52](https://github.com/azya52/)**: the developer of the PIMP cartridge. This device made possible to load large volumes on a real MK90;
 
 - **[flint-1979](https://phantom.sannata.org/memberlist.php?mode=viewprofile&u=6909)**: testing on the real machines with both BASIC v.1.0 and v.2.0;
 
