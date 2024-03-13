@@ -4,7 +4,7 @@
 require_relative "./../lib/smp_tool/cli"
 
 # DEBUG:
-# ARGV = "i -i bin/smp0.bin".split(" ")
+# ARGV = "z -i exe/smp0.bin -c -5".split(" ")
 
 begin
   Dry::CLI.new(SMPTool::CLI::Commands).call

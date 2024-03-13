@@ -2,7 +2,7 @@
 
 module SMPTool
   module CLI
-    class VolParamsInterface
+    class VolumeSpecsInterface
       def initialize(basic:, n_clusters:, n_dir_segs:, n_cls_per_dir_seg:, bootloader:)
         @basic = basic.downcase
         @n_clusters = n_clusters.to_i
@@ -13,12 +13,16 @@ module SMPTool
         @namespace = _basic_namespace
       end
 
-      def call
-        {
-          bootloader: _choose_bootloader,
-          home_block: @namespace::HOME_BLOCK,
-          volume_params: _volume_params
-        }
+      def bootloader
+        _choose_bootloader
+      end
+
+      def home_block
+        @namespace::HOME_BLOCK
+      end
+
+      def volume_params
+        _volume_params
       end
 
       private
@@ -46,13 +50,13 @@ module SMPTool
       end
 
       def _volume_params
-        {
+        SMPTool::VirtualVolume::VolumeParams.new(
           n_clusters_allocated: @n_clusters,
           n_extra_bytes_per_entry: @namespace::N_EXTRA_BYTES_PER_ENTRY,
           n_dir_segs: @n_dir_segs,
           n_clusters_per_dir_seg: @n_cls_per_dir_seg,
           extra_word: @namespace::ENTRY_EXTRA_WORD
-        }
+        )
       end
     end
   end

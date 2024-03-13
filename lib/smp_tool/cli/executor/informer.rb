@@ -7,17 +7,21 @@ module SMPTool
       # Prints info about the volume.
       #
       class Informer < VolReadOperator
-        PAR_PRINT_LENGTH = 24
+        VOL_PAR_L = 24
+
+        F_NUM_L = 5
+        F_STATUS_L = 10
+        F_NAME_L = 13
+        F_SIZE_L = 4
 
         def call
           snapshot = @volume.snapshot
 
           _list_files(snapshot[:volume_data])
+          puts ""
           puts "--- Volume information: ---"
           _print_n_free_clusters(snapshot[:n_free_clusters])
           _print_vol_params(snapshot[:volume_params])
-          _print_dir_capacity(snapshot[:n_max_entries])
-          _print_vol_type(snapshot[:volume_params])
 
           super
         end
@@ -33,33 +37,40 @@ module SMPTool
           end
         end
 
-        def _print_vol_type(vol_params)
-          puts "Volume type:".ljust(PAR_PRINT_LENGTH) + _choose_basic(vol_params[:extra_word])
-        end
-
         def _print_n_free_clusters(n_free_clusters)
-          puts "N. free clusters:".ljust(PAR_PRINT_LENGTH) + n_free_clusters.to_s
-        end
-
-        def _print_dir_capacity(n_max_entries)
-          puts "Directory capacity:".ljust(PAR_PRINT_LENGTH) + n_max_entries.to_s
+          puts "N. free clusters:".ljust(VOL_PAR_L) + n_free_clusters.to_s
         end
 
         def _print_vol_params(vol_params)
-          puts "N. clusters allocated:".ljust(PAR_PRINT_LENGTH) + vol_params[:n_clusters_allocated].to_s
-          puts "N. dir. segments:".ljust(PAR_PRINT_LENGTH) + vol_params[:n_dir_segs].to_s
-          puts "Dir. seg. size:".ljust(PAR_PRINT_LENGTH) + vol_params[:n_clusters_per_dir_seg].to_s
+          puts "N. clusters allocated:".ljust(VOL_PAR_L) << vol_params[:n_clusters_allocated].to_s
+          puts "N. dir. segments:".ljust(VOL_PAR_L) << vol_params[:n_dir_segs].to_s
+          puts "Dir. seg. size:".ljust(VOL_PAR_L) << vol_params[:n_clusters_per_dir_seg].to_s
+          puts "Directory capacity:".ljust(VOL_PAR_L) << vol_params[:n_max_entries].to_s
+          puts "Volume type:".ljust(VOL_PAR_L) << _choose_basic(vol_params[:extra_word])
         end
 
         def _list_files(vol_data)
-          puts "Status".ljust(10) + "Filename".ljust(14) + "Size".to_s.ljust(4)
-          puts "------".ljust(10) + "--------".ljust(14) + "----".to_s.ljust(4)
-
-          vol_data.each { |e| _print_file_entry(e) }
+          _print_file_list_legend
+          vol_data.each_with_index { |e, i| _print_file_entry(i, e) }
         end
 
-        def _print_file_entry(entry)
-          puts entry[:status].ljust(10) + entry[:filename].ljust(14) + entry[:n_clusters].to_s.ljust(4)
+        def _print_file_list_legend
+          legend = [
+            "#".ljust(F_NUM_L),
+            "Status".ljust(F_STATUS_L),
+            "Filename".ljust(F_NAME_L),
+            "Size".to_s.ljust(F_SIZE_L)
+          ].join("")
+
+          puts legend
+          puts legend.gsub(/[^ ]/, "-")
+        end
+
+        def _print_file_entry(idx, entry)
+          puts (idx + 1).to_s.ljust(F_NUM_L) +
+               entry[:status].ljust(F_STATUS_L) +
+               entry[:filename].ljust(F_NAME_L) +
+               entry[:n_clusters].to_s.ljust(F_SIZE_L)
         end
       end
     end

@@ -1,24 +1,54 @@
-# SMPTool::CLI
+# smp_tool/cli
 
-TODO: Delete this and the text below, and describe your gem
+A Ruby command-line application to work with the Elektronika MK90 volume images.
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/smp_tool/cli`. To experiment with that code, run `bin/console` for an interactive prompt.
+## Key features
+
+* **Supports all common operations**:
+  * creating new volumes;
+  * adding BASIC files to a volume;
+  * deleting BASIC files from a volume;
+  * renaming BASIC files on a volume;
+  * extracting BASIC files from a volume;
+  * changing volume size.
+
+* **Supports variable volume size: from 4 up to 127 clusters (2048 – 65024 bytes)**
+
+  A standard MPO-10 cartridge has capacity of 20 clusters (10240 bytes), but the tool can create volumes of smaller or larger size. Such volumes can be loaded into a real machine with a modern cartridge such as [azya52/STMP](https://github.com/azya52/STMP) (not tested) or [azya52/PIMP](https://github.com/azya52/PIMP) (seems to work only on BASIC v.1.0 systems, see below). The emulator by Piotr Piatek also supports such volumes.
+
+* **Supports Elektronika MK90 BASIC v.1.0 and v.2.0 volumes**
+
+* **Allows to create volumes with the auto-loaders**
+
+  All you have to do is to add the `AUTO.BAS` file to the volume files. Then mount the volume to the MK90, and select the slot in the main menu. This will automagically load and run any BASIC script defined in the `AUTO.BAS` file. Auto loaders were developed by Piotr Piatek.
+
+* **Has a special mode that can free one more cluster (512 bytes) to store data**
+
+## Known bugs and limitations
+
+* PIMP cartridge seems to be incompatible with the BASIC v.2.0 system. While the cartridge can run binary code on both version of the system, the access to a volume from the BASIC environment seems to work only on the v.1.0 systems. This is not a bug in the **smp_tool** software but rather a limitation caused by the PIMP design.
+
+## Prerequisites
+
+* Ruby ver. >= 3.0.0.
 
 ## Installation
 
-TODO: Replace `UPDATE_WITH_YOUR_GEM_NAME_PRIOR_TO_RELEASE_TO_RUBYGEMS_ORG` with your gem name right after releasing it to RubyGems.org. Please do not do it earlier due to security reasons. Alternatively, replace this section with instructions to install your gem from git if you don't plan to release to RubyGems.org.
-
-Install the gem and add to the application's Gemfile by executing:
-
-    $ bundle add UPDATE_WITH_YOUR_GEM_NAME_PRIOR_TO_RELEASE_TO_RUBYGEMS_ORG
-
-If bundler is not being used to manage dependencies, install the gem by executing:
-
-    $ gem install UPDATE_WITH_YOUR_GEM_NAME_PRIOR_TO_RELEASE_TO_RUBYGEMS_ORG
+    $ gem install smp_tool
 
 ## Usage
 
-TODO: Write usage instructions here
+General syntax is:
+
+    $ smp_tool <command> [options]
+    
+Use the `-h` flag to get the list of available commands:
+
+    $ smp_tool -h
+
+Call a command with the `-h` flag to get help information about the command:
+
+    $ smp_tool <command> -h
 
 ## Development
 
@@ -28,7 +58,17 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/smp_tool-cli.
+Bug reports and pull requests are welcome on GitHub at https://github.com/8bit-mate/smp_tool-cli.rb.
+
+## Special thanks to
+
+- **[Piotr Piatek](http://www.pisi.com.pl/piotr433/index.htm)**: the indisputable master of the MK90 who developed lots of great software tools and hardware devices for the machine;
+
+- **[azya52](https://github.com/azya52/)**: developer of the PIMP cartridge. This device made possible to load large volumes on a real MK90;
+
+- **[flint-1979](https://phantom.sannata.org/memberlist.php?mode=viewprofile&u=6909)**: testing on the real machines with both BASIC v.1.0 and v.2.0;
+
+- **[BitSavers project](http://www.bitsavers.org/)**: the largest source of the DEC PDP-11 / RT-11 and other legacy systems documentation.
 
 ## License
 

@@ -45,11 +45,9 @@ module SMPTool
                aliases: ["-l"]
 
         def call(output:, basic:, **options)
-          vol_params = _parse_vol_params(basic, options)
-
           Executor::Creator.new(
             output: output,
-            vol_params: vol_params,
+            volume_specs: _parse_vol_specs(basic, options),
             logger: _logger(options[:verbosity]),
             **options
           ).call
@@ -57,14 +55,14 @@ module SMPTool
 
         private
 
-        def _parse_vol_params(basic, options)
-          VolParamsInterface.new(
+        def _parse_vol_specs(basic, options)
+          VolumeSpecsInterface.new(
             basic: basic,
             bootloader: options[:bootloader],
             n_clusters: options[:n_clusters],
             n_dir_segs: options[:n_dir_segs],
             n_cls_per_dir_seg: options[:n_cls_per_dir_seg]
-          ).call
+          )
         end
       end
     end
