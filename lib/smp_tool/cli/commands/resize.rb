@@ -9,27 +9,18 @@ module SMPTool
       class Resize < VolumeOperation
         desc "Change volume size"
 
-        option :clusters,
+        option :n_clusters,
                required: true,
                desc: "Number of clusters to add/trim",
                aliases: ["-c"]
 
-        private
-
-        def _execute(volume:, clusters:, **)
-          volume.change_size(clusters.to_i)
-
-          puts _msg(clusters.to_i)
-        end
-
-        def _msg(n_clusters)
-          if n_clusters.negative?
-            "#{n_clusters} clusters were trimmed from the volume"
-          elsif n_clusters.positive?
-            "#{n_clusters} clusters were added to the volume."
-          else
-            "No changes were made."
-          end
+        def call(input:, n_clusters:, **options)
+          Executor::Resizer.new(
+            input: input,
+            n_clusters: n_clusters,
+            logger: _logger(options[:verbosity]),
+            **options
+          ).call
         end
       end
     end

@@ -4,56 +4,30 @@ module SMPTool
   module CLI
     module Commands
       #
-      # Command to extract files from the volume.
+      # Command to extract individual files from the volume.
       #
-      class Extract < Dry::CLI::Command
-        desc "Extract files from the volume."
-
-        option :input,
-               required: true,
-               desc: "Input filename",
-               aliases: ["-i", "--input"]
+      class Extract < InputCommand
+        desc "Extract individual files from the volume"
 
         option :dir,
                required: false,
+               default: Dry::Files.new.pwd,
                desc: "Output directory",
-               aliases: ["-d", "--dir"]
+               aliases: ["-d"]
 
-        option :file_list,
+        option :f_list,
                type: :array,
-               required: false,
+               required: true,
                desc: "File(s) to extract",
                aliases: ["-f"]
 
-        option :all,
-               type: :boolean,
-               required: false,
-               desc: "extract all files",
-               aliases: ["-a", "--all"]
-
-        def call(input:, **options)
-          _output(
-            volume: _input(input: input, **options),
-            dir: Dry::Files.new.pwd || options[:dir],
+        def call(input:, f_list:, **options)
+          Executor::ExtracterTxt.new(
+            input: input,
+            f_list: f_list,
+            logger: _logger(options[:verbosity]),
             **options
-          )
-        end
-
-        private
-
-        def _output(volume:, dir:, **_options)
-          puts dir
-        end
-
-        def _input(input:, **_options)
-          SMPTool::VirtualVolume::Volume.read_io(
-            _read_file(input)
-          )
-        end
-
-        def _read_file(path)
-          files = Dry::Files.new
-          files.read(path)
+          ).call
         end
       end
     end

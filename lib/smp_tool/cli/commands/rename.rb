@@ -9,20 +9,24 @@ module SMPTool
       class Rename < VolumeOperation
         desc "Rename a file on the volume"
 
-        option :old,
+        option :old_fn,
                required: true,
                desc: "File to rename",
                aliases: ["-o"]
 
-        option :new,
+        option :new_fn,
                required: true,
                desc: "New filename for the file",
                aliases: ["-n"]
 
-        private
-
-        def _execute(volume:, old:, new:, **)
-          volume.f_rename(old, new)
+        def call(input:, new_fn:, old_fn:, **options)
+          Executor::Renamer.new(
+            input: input,
+            old_fn: old_fn,
+            new_fn: new_fn,
+            logger: _logger(options[:verbosity]),
+            **options
+          ).call
         end
       end
     end

@@ -10,7 +10,8 @@ module SMPTool
         desc "Print version"
 
         def call(*)
-          puts "CLI version: #{SMPTool::CLI::VERSION}"
+          puts "CLI (smp_tool-cli) version: #{SMPTool::CLI::VERSION}"
+          puts "Core lib (smp_tool) version: #{SMPTool::VERSION}"
         end
       end
     end

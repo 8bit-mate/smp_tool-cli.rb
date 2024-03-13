@@ -9,10 +9,12 @@ module SMPTool
       class Squeeze < VolumeOperation
         desc "Consolidate all free space at the end of the volume"
 
-        private
-
-        def _execute(volume:, **)
-          volume.squeeze
+        def call(input:, **options)
+          Executor::Squeezer.new(
+            input: input,
+            logger: _logger(options[:verbosity]),
+            **options
+          ).call
         end
       end
     end

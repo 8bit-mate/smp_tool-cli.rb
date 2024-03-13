@@ -14,10 +14,13 @@ module SMPTool
                desc: "File to delete",
                aliases: ["-f"]
 
-        private
-
-        def _execute(volume:, filename:, **)
-          volume.f_delete(filename)
+        def call(input:, filename:, **options)
+          Executor::Deleter.new(
+            input: input,
+            filename: filename,
+            logger: _logger(options[:verbosity]),
+            **options
+          ).call
         end
       end
     end

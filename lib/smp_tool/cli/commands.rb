@@ -11,7 +11,8 @@ module SMPTool
       register "new", New, aliases: ["n"]
 
       register "delete", Delete, aliases: %w[d del]
-      register "extract", Extract, aliases: ["x"]
+      register "extract", Extract, aliases: ["e"]
+      register "extract-all", ExtractAll, aliases: ["x"]
       register "info", Info, aliases: ["i"]
       register "push", Push, aliases: ["p"]
       register "rename", Rename, aliases: ["r"]
