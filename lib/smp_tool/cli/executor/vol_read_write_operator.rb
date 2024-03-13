@@ -13,6 +13,11 @@ module SMPTool
         def call
           _save_volume(path: @options[:output], volume: @volume, **@options) if @options.key?(:output)
           _save_volume(path: @input, volume: @volume, **@options) if @options[:apply]
+
+          return if @options.key?(:output) || @options[:apply]
+
+          @logger.warning "Changes were not saved since you didn't specify the output file " \
+                          "or the `-a` option to apply changes to the input file"
         end
       end
     end
