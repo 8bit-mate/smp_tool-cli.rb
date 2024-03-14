@@ -18,15 +18,19 @@ A Ruby command-line application to work with the Elektronika MK90 volume images.
 
 * **Supports Elektronika MK90 BASIC v.1.0 and v.2.0 volumes**
 
-* **Allows to create volumes with the auto-loaders**
+  The tool automatically detects the volume version while loading the volume. Manual specification of the target BASIC version requires only to create an empty volume.
 
-  All you have to do is to add the `AUTO.BAS` file to the volume files. Then mount the volume to the MK90, and select the slot in the main menu. This will automagically load and run any BASIC script defined in the `AUTO.BAS` file. Auto loaders were developed by Piotr Piatek.
+* **Allows to create volumes with the auto-loader**
+
+  Create a volume with the `--bootloader="auto"` option. Then add the `AUTO.BAS` file to the volume files. Mount the volume to the MK90, and select the slot in the main menu. This will automagically load and run any BASIC script defined in the `AUTO.BAS` file. Auto loaders were developed by Piotr Piatek.
 
 * **Has a special mode that can free one more cluster (512 bytes) to store data**
 
+  Create a volume with the `--n-cls-per-dir-seg=1` option. This will create a volume with a "trimmed" directory segment, allowing to use one more cluster to store data.
+
 ## Known bugs and limitations
 
-* PIMP cartridge seems to be incompatible with the BASIC v.2.0 system. While the cartridge can run binary code on both version of the system, the access to a volume from the BASIC environment seems to work only on the v.1.0 systems. This is not a bug in the **smp_tool** software but rather a limitation caused by the PIMP design.
+* PIMP cartridge seems to be incompatible with the BASIC v.2.0 system. While the cartridge can run binary code on both version of the system, the access to the volume from the BASIC environment seems to work only on the v.1.0 systems. This is not a bug in the **smp_tool** software but rather a limitation caused by the PIMP design.
 
 ## Prerequisites
 
@@ -34,7 +38,7 @@ A Ruby command-line application to work with the Elektronika MK90 volume images.
 
 ## Installation
 
-    $ gem install smp_tool/cli
+    $ gem install smp_tool-cli
 
 ## Usage
 
@@ -49,6 +53,10 @@ Use the `-h` flag to get the list of available commands:
 Call a command with the `-h` flag to get help information about the command:
 
     $ smp_tool <command> -h
+
+## Tips
+
+* To load a program in BASIC 1.0 simply provide a filename in quotes, e.g.: `LOAD "FILE.BAS"`. To load a program in BASIC 2.0 add the parameter `A`, e.g.: `LOAD "FILE.BAS", A`.
 
 ## Development
 

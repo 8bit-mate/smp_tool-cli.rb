@@ -17,7 +17,7 @@ module SMPTool
 
         option :basic,
                required: true,
-               desc: "Target Basic version",
+               desc: "Target Basic version { 1 | 2 }",
                aliases: ["-b"]
 
         option :n_clusters,
@@ -29,20 +29,30 @@ module SMPTool
         option :n_dir_segs,
                default: DEF_N_DIR_SEGS,
                required: false,
-               desc: "Number of directory segments (1 or 2)",
+               desc: "Number of directory segments { 1 | 2 }",
                aliases: ["-d"]
 
         option :n_cls_per_dir_seg,
                default: DEF_N_CLS_PER_DIR_SEG,
                required: false,
-               desc: "Number of clusters per directory segment (1 or 2)",
+               desc: "Number of clusters per directory segment { 1 | 2 }",
                aliases: ["-s"]
 
         option :bootloader,
                default: DEF_BOOTLOADER,
                required: false,
-               desc: "Bootloader type (default or auto)",
+               desc: "Bootloader type { default | auto }",
                aliases: ["-l"]
+
+        example [
+          "-b 1                   # Create a BASIC v.1.0 volume with the default parameters, " \
+                                  "save result to the `smp0.bin` file (default path)",
+          "-b 2 -o /dir/smp.bin   # Create a BASIC v.1.0 volume with the default parameters, " \
+                                  "save result to the `/dir/smp.bin` file (custom path)",
+          "-b 2 -l auto           # Create a BASIC v.2.0 volume with the auto-loader",
+          "-b 1 -c 127 -d 2       # Create the largest possible BASIC v.1.0 volume",
+          "-b 1 -s 1              # Create a BASIC v.1.0 volume with the 'trimmed' directory"
+        ]
 
         def call(output:, basic:, **options)
           Executor::Creator.new(
