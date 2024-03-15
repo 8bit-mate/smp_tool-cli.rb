@@ -35,5 +35,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency "dry-cli", "~> 1.0", ">= 1.0.0"
   spec.add_dependency "dry-files", "~> 1.1", ">= 1.1.0"
   spec.add_dependency "smp_tool", "~> 0.1", ">= 0.1.0"
-  spec.add_dependency "zeitwerk", "~> 2.6", ">= 2.6.12"
+  spec.add_dependency "zeitwerk", "~> 2.6", ">= 2.6.13"
 end

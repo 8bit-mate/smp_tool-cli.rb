@@ -7,7 +7,7 @@ module SMPTool
       # Prints info about the volume.
       #
       class Informer < VolReadOperator
-        VOL_PAR_L = 24
+        VOL_PAR_L = 32
 
         F_NUM_L = 5
         F_STATUS_L = 10
@@ -44,8 +44,8 @@ module SMPTool
         def _print_vol_params(vol_params)
           puts "N. clusters allocated:".ljust(VOL_PAR_L) << vol_params[:n_clusters_allocated].to_s
           puts "N. dir. segments:".ljust(VOL_PAR_L) << vol_params[:n_dir_segs].to_s
-          puts "Dir. seg. size:".ljust(VOL_PAR_L) << vol_params[:n_clusters_per_dir_seg].to_s
-          puts "Directory capacity:".ljust(VOL_PAR_L) << vol_params[:n_max_entries].to_s
+          puts "Dir. seg. size, clusters:".ljust(VOL_PAR_L) << vol_params[:n_clusters_per_dir_seg].to_s
+          puts "Directory capacity, files:".ljust(VOL_PAR_L) << vol_params[:n_max_entries].to_s
           puts "Volume type:".ljust(VOL_PAR_L) << _choose_basic(vol_params[:extra_word])
         end
 

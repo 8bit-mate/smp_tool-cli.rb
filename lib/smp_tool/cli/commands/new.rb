@@ -23,7 +23,7 @@ module SMPTool
         option :n_clusters,
                default: DEF_N_CLUSTERS,
                required: false,
-               desc: "Number of clusters allocated to the volume",
+               desc: "Number of 512-byte clusters allocated to the volume (4..127)",
                aliases: ["-c"]
 
         option :n_dir_segs,
@@ -47,8 +47,8 @@ module SMPTool
         example [
           "-b 1                   # Create a BASIC v.1.0 volume with the default parameters, " \
                                   "save result to the `smp0.bin` file (default path)",
-          "-b 2 -o /dir/smp.bin   # Create a BASIC v.1.0 volume with the default parameters, " \
-                                  "save result to the `/dir/smp.bin` file (custom path)",
+          "-b 2 -o dir/smp.bin    # Create a BASIC v.1.0 volume with the default parameters, " \
+                                  "save result to the `dir/smp.bin` file (custom path)",
           "-b 2 -l auto           # Create a BASIC v.2.0 volume with the auto-loader",
           "-b 1 -c 127 -d 2       # Create the largest possible BASIC v.1.0 volume",
           "-b 1 -s 1              # Create a BASIC v.1.0 volume with the 'trimmed' directory"

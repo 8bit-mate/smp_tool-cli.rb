@@ -23,7 +23,7 @@ module SMPTool
             @logger.info "File '#{path}' created"
           end
 
-          @logger.es_info "#{f_arr.length} files extracted"
+          @logger.es_info "#{f_arr.length} files were extracted to the directory: '#{@options[:dir]}'"
         end
 
         # Remove trailing spaces from the base filename and ext.
