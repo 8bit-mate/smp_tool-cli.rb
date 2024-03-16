@@ -5,10 +5,23 @@ module SMPTool
     module Executor
       class Deleter < VolReadWriteOperator
         def call
-          fn = @volume.f_delete(@options[:filename])
-          @logger.es_info "File '#{fn}' was deleted from the volume"
+          @options[:f_list].each do |file|
+            fn = @volume.f_delete(file)
+            @logger.info "File '#{fn}' was deleted from the volume"
+          end
+
+          @logger.es_info "#{@options[:f_list].length} files were deleted from the volume"
+
+          _squeeze if @options[:squeeze]
 
           super
+        end
+
+        private
+
+        def _squeeze
+          n_free_clusters = @volume.squeeze
+          @logger.es_info "#{n_free_clusters} clusters were joined into one section at the end of the volume"
         end
       end
     end

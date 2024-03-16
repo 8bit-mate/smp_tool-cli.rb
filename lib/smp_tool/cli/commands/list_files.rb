@@ -7,7 +7,7 @@ module SMPTool
       # Command to list files.
       #
       class ListFiles < InputCommand
-        desc "List files on the volume"
+        desc "List all files on the volume"
 
         def call(input:, **options)
           Executor::FileListInformer.new(

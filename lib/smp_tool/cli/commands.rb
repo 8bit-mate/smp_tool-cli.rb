@@ -18,7 +18,7 @@ module SMPTool
       register "rename", Rename, aliases: ["r"]
       register "resize", Resize, aliases: ["z"]
       register "squeeze", Squeeze, aliases: ["s"]
-      register "list-files", ListFiles, aliases: ["l"]
+      register "list", ListFiles, aliases: ["l"]
 
       register "version", Version, aliases: ["-v", "--version"]
     end
