@@ -26,6 +26,8 @@ module SMPTool
           super
         end
 
+        private
+
         def _choose_basic(extra_word)
           case extra_word
           when SMPTool::Basic10::ENTRY_EXTRA_WORD
