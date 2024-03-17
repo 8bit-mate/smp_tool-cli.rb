@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    smp_tool-cli (0.1.1)
+    smp_tool-cli (0.2.0)
       dry-cli (~> 1.0, >= 1.0.0)
       dry-files (~> 1.1, >= 1.1.0)
       smp_tool (~> 0.1, >= 0.1.0)

@@ -17,7 +17,7 @@ module SMPTool
 
         option :basic,
                required: true,
-               desc: "Target Basic version { 1 | 2 }",
+               desc: "Target BASIC version { 1 | 2 }",
                aliases: ["-b"]
 
         option :n_clusters,
