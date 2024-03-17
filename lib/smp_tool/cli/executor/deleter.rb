@@ -4,6 +4,8 @@ module SMPTool
   module CLI
     module Executor
       class Deleter < VolReadWriteOperator
+        include SqueezeMixin
+
         def call
           @options[:f_list].each do |file|
             fn = @volume.f_delete(file)
@@ -15,13 +17,6 @@ module SMPTool
           _squeeze if @options[:squeeze]
 
           super
-        end
-
-        private
-
-        def _squeeze
-          n_free_clusters = @volume.squeeze
-          @logger.es_info "#{n_free_clusters} clusters were joined into one section at the end of the volume"
         end
       end
     end

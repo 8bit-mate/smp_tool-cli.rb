@@ -22,7 +22,6 @@ module SMPTool
                desc: "When done, perform the `squeeze` operation",
                aliases: ["-s"]
 
-
         def call(input:, f_list:, **options)
           Executor::Deleter.new(
             input: input,

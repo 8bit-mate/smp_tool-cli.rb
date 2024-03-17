@@ -4,9 +4,10 @@ module SMPTool
   module CLI
     module Executor
       class Squeezer < VolReadWriteOperator
+        include SqueezeMixin
+
         def call
-          n_free_clusters = @volume.squeeze
-          @logger.es_info "#{n_free_clusters} clusters were joined into one section at the end of the volume"
+          _squeeze
 
           super
         end
