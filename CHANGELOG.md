@@ -1,3 +1,7 @@
+## [0.2.1] - 2024-03-18
+
+* bug fix: file read/write on MS Windows
+
 ## [0.2.0] - 2024-03-17
 
 * `--raw` option for the extract command
