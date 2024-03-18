@@ -47,6 +47,7 @@ module SMPTool
         # @param [Object] bin_obj
         #
         def _write_bin_file(path, bin_obj)
+          Dry::Files.new.mkdir_p(path)
           File.open(path, "wb") { |file| bin_obj.write(file) }
         end
       end

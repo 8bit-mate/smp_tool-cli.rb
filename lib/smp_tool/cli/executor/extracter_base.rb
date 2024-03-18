@@ -17,6 +17,8 @@ module SMPTool
         def _output(f_arr)
           dry_files = Dry::Files.new
 
+          dry_files.mkdir(@options[:dir])
+
           f_arr.each do |f|
             path = dry_files.join(@options[:dir], _filter_filename(f.filename))
             _save_file(path, f)
