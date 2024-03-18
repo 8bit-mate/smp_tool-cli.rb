@@ -17,12 +17,12 @@ module SMPTool
         # @param [Hash{ Symbol => Object }] **_options
         #
         def _save_volume(path:, volume:, **_options)
-          b_str = _volume_to_binary(volume)
-          @logger.debug "Converted to binary string"
+          bin_obj = volume.to_volume_io
+          @logger.debug "Converted to VolumeIO of #{bin_obj.num_bytes} bytes"
 
           _write_bin_file(
             path,
-            b_str
+            bin_obj
           )
 
           @logger.es_info "Changes saved to the file: '#{path}'"
@@ -44,11 +44,10 @@ module SMPTool
         #
         # @param [String] path
         #
-        # @param [String] data
-        #   Binary string with the file's content.
+        # @param [Object] bin_obj
         #
-        def _write_bin_file(path, data)
-          Dry::Files.new.write(path, data)
+        def _write_bin_file(path, bin_obj)
+          File.open(path, "wb") { |file| bin_obj.write(file) }
         end
       end
     end

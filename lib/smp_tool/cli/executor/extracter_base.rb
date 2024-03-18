@@ -19,7 +19,7 @@ module SMPTool
 
           f_arr.each do |f|
             path = dry_files.join(@options[:dir], _filter_filename(f.filename))
-            _write_file(path, f)
+            _save_file(path, f)
             @logger.info "File '#{path}' created"
           end
 
@@ -34,7 +34,7 @@ module SMPTool
           base + ext
         end
 
-        def _write_file(path, _file_obj); end
+        def _save_file(path, _file_obj); end
       end
     end
   end

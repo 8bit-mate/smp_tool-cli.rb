@@ -6,9 +6,12 @@ module SMPTool
       class ExtracterRawBase < ExtracterBase
         private
 
-        def _write_file(path, file_obj)
-          dry_files = Dry::Files.new
-          dry_files.write(path, file_obj.data)
+        def _save_file(path, file_obj)
+          _write_data(path, file_obj.data)
+        end
+
+        def _write_data(path, data)
+          File.binwrite(path, data)
         end
 
         def _filter_filename(filename)

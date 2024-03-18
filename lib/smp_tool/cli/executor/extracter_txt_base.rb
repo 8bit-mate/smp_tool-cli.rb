@@ -6,9 +6,12 @@ module SMPTool
       class ExtracterTxtBase < ExtracterBase
         private
 
-        def _write_file(path, file_obj)
-          dry_files = Dry::Files.new
-          dry_files.write(path, file_obj.data.join("\n"))
+        def _save_file(path, file_obj)
+          _write_data(path, file_obj.data.join("\n"))
+        end
+
+        def _write_data(path, data)
+          File.binwrite(path, data)
         end
       end
     end
