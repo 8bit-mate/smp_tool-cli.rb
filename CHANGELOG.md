@@ -1,3 +1,7 @@
+## [0.2.2] - 2024-03-18
+
+* bug fix: directory creation
+
 ## [0.2.1] - 2024-03-18
 
 * bug fix: file read/write on MS Windows
